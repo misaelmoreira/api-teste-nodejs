@@ -13,8 +13,20 @@ measureRouter.post('/', async (req: Request, res: Response) => {
     }
 
     //Verificar se já existe uma leitura no mês naquele tipo de leitura. 
+    const result = await measureController.checkReading(req.body.measure_datetime)
+    if (!result) {
+        return res.status(409).json({ error_code: "DOUBLE_REPORT", error_description: 'Leitura do mês já realizada' })
+    }
 
     //Integrar com uma API de LLM para extrair o valor da imagem
+
+
+    // Operação realizada com sucesso devolver os parametros
+    return res.status(200).send({
+        image_url: '',
+        measure_value: 0,
+        measure_uuid: ''    
+    })
 }
 )
 

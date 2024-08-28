@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Validate from '../../../db/models/validate';
+import * as serviceMeasure from '../../services/measure'
 import measureSchema from '../../validations/validateMeasure';
 import validateBase64 from '../../helper/validateBase64';
 
@@ -30,4 +31,13 @@ export const validateData = async (req: Request): Promise<Validate> => {
     details: [''],
     error: false
   })
+}
+
+export const checkReading = async (measure_datetime: any): Promise<boolean> => {
+    //verifica a medição do mes 
+    const result: any = await serviceMeasure.checkReading(measure_datetime);
+    if (result.length > 0) {
+      return false
+    }
+    return true
 }
