@@ -1,4 +1,8 @@
 import express, { Request, Response, Application } from 'express';
+import dotenv from "dotenv"
+import sequelize from './db/config';
+
+dotenv.config()
 
 import routes from './api/routes';
 
@@ -7,7 +11,17 @@ const port = 3000;
 
 // Middleware
 app.use(express.json())
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.urlencoded({ extended: true }));
+
+
+sequelize.sync()
+  .then(() => {
+    console.log("Synced db.");
+  })
+  .catch((err) => {
+    console.log("Failed to sync db: " + err.message);
+  });
+
 
 app.get('/', async (req: Request, res: Response): Promise<Response> => {
     return res.status(200).send({ message: `Bem vindo a api_shopper: http://localhost:${port}/api/v1` })
