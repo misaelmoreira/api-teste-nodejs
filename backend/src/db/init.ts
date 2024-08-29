@@ -1,8 +1,8 @@
-import Measure from './models/measure'
+import Customer from './models/customer';
 const isDev = process.env.NODE_ENV === 'development'
 
-const dbInit = () => {
-    Measure.sync({ alter: isDev })
-}
+const dbInit = async () => {
+    await Customer.sync({ alter: isDev })
+};
 
 export default dbInit 
