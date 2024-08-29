@@ -66,5 +66,20 @@ export const consultGemini = async (imageBase64: any): Promise<number> => {
   const retorno =  await serviceMeasure.sendImageToGemini(imgData, type)
   // Retorna uma medida simulada por enquanto
 
-  return retorno; // Valor simulado, substituir pela lógica real
+  return retorno
+}
+
+export const save = async (data: any, value: any): Promise<any> => {
+
+  const measure = {
+    measure_datetime: data.measure_datetime,
+    customer_id: data.customer_code,
+    measure_type: data.measure_type,
+    measure_value: value,
+    has_confirmed: false,
+  }
+
+  // envia ao servico para salvar
+  const retorno = await serviceMeasure.save(measure)
+  return retorno;
 }

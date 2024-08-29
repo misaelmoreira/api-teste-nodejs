@@ -24,12 +24,17 @@ measureRouter.post('/', async (req: Request, res: Response) => {
         return res.status(409).json({ error_code: "DOUBLE_REPORT", error_description: 'Leitura do mês já realizada' })
     }
 
+    // salvar a medição
+    let measure = await measureController.save(req.body, 22) 
+    if (measure.erro) {
+        return res.status(400).json({ error_code: "INVALID_DATA", error_description: measure.message })
+    }
 
     // Operação realizada com sucesso devolver os parametros
     return res.status(200).send({
-        image_url: '',
-        measure_value: 0,
-        measure_uuid: ''    
+        image_url: measure.image_url,
+        measure_value: measure.measure_value,
+        measure_uuid: measure.measure_uuid  
     })
 }
 )
