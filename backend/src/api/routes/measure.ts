@@ -13,8 +13,8 @@ measureRouter.post('/', async (req: Request, res: Response) => {
     }
 
     //Verificar se já existe uma leitura no mês naquele tipo de leitura. 
-    const result = await measureController.checkReading(req.body.measure_datetime)
-    if (!result) {
+    const result = await measureController.checkReading(req.body)
+    if (result) {
         return res.status(409).json({ error_code: "DOUBLE_REPORT", error_description: 'Leitura do mês já realizada' })
     }
 

@@ -3,6 +3,7 @@ import Validate from '../../../db/models/validate';
 import * as serviceMeasure from '../../services/measure'
 import measureSchema from '../../validations/validateMeasure';
 import validateBase64 from '../../helper/validateBase64';
+import compareDates from '../../helper/compareDates';
 
 export const validateData = async (req: Request): Promise<Validate> => {
   // valida dados 
@@ -33,13 +34,26 @@ export const validateData = async (req: Request): Promise<Validate> => {
   })
 }
 
-export const checkReading = async (measure_datetime: any): Promise<boolean> => {
-    //verifica a medição do mes 
-    const result: any = await serviceMeasure.checkReading(measure_datetime);
+export const checkReading = async (payload: any): Promise<boolean> => {
+  //verifica a medição do mes 
+
+  // busca as medições pelo cliente id 
+  const measures = await serviceMeasure.checkReading(payload.customer_code);
+
+  if (measures.length > 0) {
+    // valida as datas
+    const result = measures.filter(item =>
+      compareDates(item.measure_datetime, payload.measure_datetime)
+    )
+
     if (result.length > 0) {
-      return false
+      return true;
     }
-    return true
+
+    return false;
+  }
+  
+  return false
 }
 
 export const consultGemini = async (imageBase64: any): Promise<number> => {

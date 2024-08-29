@@ -1,19 +1,10 @@
 import * as measureDal from '../../db/dal/measure'
-import dotenv from "dotenv"
-import compareDates from '../helper/compareDates';
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import Measure from '../../db/models/measure';
 
-dotenv.config()
-
-export const checkReading = async (measure_datetime: string): Promise<any> => {
+export const checkReading = async (id: any): Promise<any> => {
     // Verificar se já existe uma leitura no mês naquele tipo de leitura pelo customer code.
-    const measures = await measureDal.getAll()
-
-    const result = measures.filter(item =>
-        compareDates(item.measure_datetime, measure_datetime)
-    )
-
-    return result;
+    return await measureDal.getAllByIdCustomer(id)       
 }
 
 export const sendImageToGemini = async (imageBase64: string, type: string): Promise<any> => {    
@@ -53,5 +44,16 @@ export const sendImageToGemini = async (imageBase64: string, type: string): Prom
     catch (error) {
         console.log("Erro: ", error)   
         return 0    
+    }
+}
+
+export const save = async (measure: Measure): Promise<any> => {    
+    try {          
+        const measureDb = await measureDal.create(measure)
+        return measureDb        
+    } 
+    catch (e) {
+        console.log("Erro: ", e.message) 
+        return { erro: true, message: e.message }
     }
 }
