@@ -43,7 +43,7 @@ export const checkReading = async (payload: any): Promise<boolean> => {
   if (measures.length > 0) {
     // valida as datas
     const result = measures.filter(item =>
-      compareDates(item.measure_datetime, payload.measure_datetime)
+      compareDates(item.measure_datetime, payload.measure_datetime) && item.measure_type == payload.measure_type
     )
 
     if (result.length > 0) {

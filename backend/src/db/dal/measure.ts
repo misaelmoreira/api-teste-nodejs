@@ -12,8 +12,8 @@ export const getAllByIdCustomer = async (id: string): Promise<Measure[]> => {
             }
         })
     } catch (error) {
-        console.error('Error fetching measures:', error);
-        throw new Error('Could not fetch measures.');
+        console.error('Error fetching measures:', error.message);
+        throw new Error('Error fetching measures:');
     }
 }
 

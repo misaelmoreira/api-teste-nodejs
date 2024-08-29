@@ -4,7 +4,13 @@ import Measure from '../../db/models/measure';
 
 export const checkReading = async (id: any): Promise<any> => {
     // Verificar se já existe uma leitura no mês naquele tipo de leitura pelo customer code.
-    return await measureDal.getAllByIdCustomer(id)       
+    try {
+        return await measureDal.getAllByIdCustomer(id) 
+    } 
+    catch (error) {
+        console.log("Erro: ", e.message) 
+        return { erro: true, message: e.message }        
+    }      
 }
 
 export const sendImageToGemini = async (imageBase64: string, type: string): Promise<any> => {    
