@@ -16,10 +16,10 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.get('/', async (req: Request, res: Response): Promise<Response> => {
-  return res.status(200).send({ message: `Bem vindo a api_shopper: http://localhost:${port}/api/v1` })
+  return res.status(200).send({ message: `Bem vindo a api_shopper: http://localhost:${port}/` })
 })
 
-app.use('/api/v1', routes)
+app.use('/', routes)
 
 const start = async (): Promise<void> => {
   try {
