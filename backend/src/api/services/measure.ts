@@ -35,17 +35,7 @@ export const sendImageToGemini = async (imageBase64: string, type: string): Prom
             { text: "Return only the meter value to me" },
         ]);
     
-        let value = result.response.text().match(/\d+/)
-
-        if (value) {
-            let measuredValue = parseInt(value[0])
-
-            return measuredValue
-        }
-        else 
-        {
-            return 0
-        }
+        return result.response.text()
     } 
     catch (error) {
         console.log("Erro: ", error)   

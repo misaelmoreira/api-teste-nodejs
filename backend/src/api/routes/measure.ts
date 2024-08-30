@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import * as measureController from '../controllers/measure'
-import Validate from '../../db/models/validate';
+import Validate from '../../db/models/validate'
 
 const measureRouter = Router();
 
