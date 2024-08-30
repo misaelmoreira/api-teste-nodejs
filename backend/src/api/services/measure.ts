@@ -13,6 +13,17 @@ export const checkReading = async (id: any): Promise<any> => {
     }      
 }
 
+export const findMeasureById = async (id: any): Promise<any> => {
+    // Verificar se já existe uma leitura no mês naquele tipo de leitura pelo customer code.
+    try {
+        return await measureDal.getById(id)
+    }
+    catch (error) {
+        console.log("Erro: ", e.message)
+        return null
+    }
+}
+
 export const sendImageToGemini = async (imageBase64: string, type: string): Promise<any> => {    
     try {          
         // Initialize GoogleGenerativeAI with your API_KEY.

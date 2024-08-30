@@ -48,8 +48,8 @@ measureRouter.patch('/confirm', async (req: Request, res: Response) => {
 
     //Verificar se o código de leitura informado existe
     const result = await measureController.checkMeasureExist(req.body)
-    if (!result) {
-        return res.status(409).json({ error_code: "DOUBLE_REPORT", error_description: 'Leitura do mês já realizada' })
+    if (result == null) {
+        return res.status(404).json({ error_code: "MEASURE_NOT_FOUND", error_description: 'Leitura do mês não encontrada' })
     }
 
     // Verificar se o código de leitura já foi confirmado

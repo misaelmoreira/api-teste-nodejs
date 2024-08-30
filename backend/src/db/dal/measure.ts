@@ -17,6 +17,15 @@ export const getAllByIdCustomer = async (id: string): Promise<Measure[]> => {
     }
 }
 
+export const getById = async (id: string): Promise<Measure | null> => {
+    try {
+        return await Measure.findByPk(id);
+    } catch (error) {
+        console.error('Error fetching measures:', error.message);
+        return null;
+    }
+}
+
 export const create = async (payload: Measure): Promise<any> => {
     try {
         const measure = await Measure.create(payload)
