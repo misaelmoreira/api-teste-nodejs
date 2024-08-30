@@ -43,14 +43,14 @@ export const getById = async (id: string): Promise<Measure | null> => {
         return await Measure.findByPk(id);
     } catch (error: any) {
         console.error('Error fetching measures:', error.message);
-        return null;
+        throw new Error('Error on save measures'); 
     }
 }
 
 export const create = async (payload: Measure): Promise<any> => {
     try {
-        const measure = await Measure.create(payload)
-        return measure.dataValues
+        const measureDb = await Measure.create(payload)
+        return measureDb.dataValues
     } catch (error: any) {
         console.error('Error on save measures:', error.message);
         throw new Error('Error on save measures');   
@@ -67,6 +67,6 @@ export const update = async (payload: Measure, value: number): Promise<any> => {
         )
     } catch (error: any) {
         console.error('Error on save measures:', error.message);
-        return null;   
+        throw new Error('Error on save measures'); ;   
     }
 }

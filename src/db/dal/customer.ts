@@ -2,19 +2,27 @@ import Customer from '../models/customer'
 
 export const create = async (payload: Customer): Promise<any> => {
     try {
-        const customer = await Customer.create(payload)
-        return customer.dataValues
+        const customerDb = await Customer.create(payload)
+        if (customerDb == null) {
+            return null
+        }
+        return customerDb.dataValues
+
     } catch (error: any) {
         console.error('Error on save customers:', error.message);
         throw new Error('Error on save customers');   
     }
 }
 
-export const getById = async (id: string): Promise<Customer | null> => {
+export const getById = async (id: string): Promise<any> => {
     try {
-        return await Customer.findByPk(id);
+        const customerDb = await Customer.findByPk(id);
+        if (customerDb == null) {
+            return null
+        }
+        return customerDb.dataValues
     } catch (error: any) {
-        console.error('Error fetching measures:', error.message);
-        return null;
+        console.error('Error find measure:', error.message);
+        throw new Error('Error on save customers');  
     }
 }
