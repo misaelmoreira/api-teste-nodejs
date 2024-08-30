@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import * as measureController from '../controllers/measure'
 import Validate from '../../db/models/validate'
+import Measure from '../../db/models/measure';
 
 const measureRouter = Router();
 
@@ -19,10 +20,10 @@ measureRouter.post('/upload', async (req: Request, res: Response) => {
     }
 
     //Integrar com uma API de LLM para extrair o valor da imagem
-    const value = await measureController.consultGemini(req.body.image) 
-    if (value == 0) {    
-        return res.status(409).json({ error_code: "DOUBLE_REPORT", error_description: 'Leitura do mês já realizada' })
-    }
+    // const value = await measureController.consultGemini(req.body.image) 
+    // if (value == 0) {    
+    //     return res.status(409).json({ error_code: "DOUBLE_REPORT", error_description: 'Leitura do mês já realizada' })
+    // }
 
     // salvar a medição
     let measure = await measureController.save(req.body, 22) 
@@ -71,7 +72,7 @@ measureRouter.patch('/confirm', async (req: Request, res: Response) => {
 )
 
 measureRouter.get('/:id/list', async (req: Request, res: Response) => {
-    let result: Measures[]
+    let result: Measure[]
     const payload = {
         id: req.params.id,
         type: req.query.measure_type
@@ -99,6 +100,7 @@ measureRouter.get('/:id/list', async (req: Request, res: Response) => {
         }
     }
 
+    // To do arrumar o formato de saida
     // Operação realizada com sucesso devolver os parametros
     return res.status(200).send({
         customer_code: payload.id,

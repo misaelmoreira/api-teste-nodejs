@@ -14,7 +14,7 @@ export const validateData = async (req: Request): Promise<Validate> => {
     // Se houver erros, retorna uma resposta com status 400 e os detalhes dos erros  
     return new Validate({
       message: 'Erro de validação',
-      details: error.details.map(err => err.message),
+      details: error.details.map((err: any) => err.message),
       error: true
     })
   }
@@ -59,24 +59,6 @@ export const validateDataConfirm = async (input: any): Promise<Validate> => {
     message: 'Ok',
     details: ['Ok'],
     error: false
-  })  
-}
-
-export const validateParams = async (payload: any): Promise<Validate> => {
-  // Verifica se 'measure_uuid' é uma string
-  if (payload.type == 'WATER' || payload.type == 'GAS') {
-    return new Validate({
-      message: 'Ok',
-      details: ['Ok'],
-      error: false
-    })
-  }
-
-  // Validação bem-sucedida
-  return new Validate({
-    message: 'Tipo de medição não permitida',
-    details: ['INVALID_TYPE'],
-    error: true
   })
 }
 
@@ -106,8 +88,8 @@ export const checkReading = async (payload: any): Promise<boolean> => {
 
   if (measures.length > 0) {
     // valida as datas
-    const result = measures.filter(item =>
-      compareDates(item.measure_datetime, payload.measure_datetime) && item.measure_type == payload.measure_type
+    const result = measures.filter((item: Measure) =>
+      compareDates(item.measure_datetime.toString(), payload.measure_datetime) && item.measure_type == payload.measure_type
     )
 
     if (result.length > 0) {
@@ -116,7 +98,7 @@ export const checkReading = async (payload: any): Promise<boolean> => {
 
     return false;
   }
-  
+
   return false
 }
 
@@ -129,6 +111,9 @@ export const consultGemini = async (imageBase64: any): Promise<number> => {
   let matches = imageBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
   let type = matches[1]
   let imgData = matches[2]
+
+  // faz upload
+  const img = await serviceMeasure.uploadImage(imgData, type)
 
   // Implementar a lógica para consultar o Gemini aqui
   const retorno = await serviceMeasure.sendImageToGemini(imgData, type)

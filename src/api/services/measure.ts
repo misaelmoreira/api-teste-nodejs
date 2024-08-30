@@ -1,5 +1,6 @@
 import * as measureDal from '../../db/dal/measure'
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleAIFileManager } from "@google/generative-ai/server";
 import Measure from '../../db/models/measure';
 
 export const checkReading = async (id: any): Promise<any> => {
@@ -7,7 +8,7 @@ export const checkReading = async (id: any): Promise<any> => {
     try {
         return await measureDal.getAllByIdCustomer(id) 
     } 
-    catch (error) {
+    catch (e: any) {
         console.log("Erro: ", e.message) 
         return { erro: true, message: e.message }        
     }      
@@ -18,7 +19,7 @@ export const checkReadingByType = async (payload: any): Promise<any> => {
     try {
         return await measureDal.getAllByIdCustomerByType(payload) 
     } 
-    catch (error) {
+    catch (e: any) {
         console.log("Erro: ", e.message) 
         return { erro: true, message: e.message }        
     }      
@@ -29,7 +30,7 @@ export const findMeasureById = async (id: any): Promise<any> => {
     try {
         return await measureDal.getById(id)
     }
-    catch (error) {
+    catch (e: any) {
         console.log("Erro: ", e.message)
         return null
     }
@@ -65,12 +66,35 @@ export const sendImageToGemini = async (imageBase64: string, type: string): Prom
     }
 }
 
-export const save = async (measure: Measure): Promise<any> => {    
+export const uploadImage = async (imageBase64: string, type: string): Promise<any> => {
+    try {
+        // Initialize GoogleAIFileManager with your API_KEY.
+        const fileManager = new GoogleAIFileManager(process.env.GEMINI_API_KEY || '');
+
+        // Upload the file and specify a display name.
+        const uploadResponse = await fileManager.uploadFile(imageBase64, {
+            mimeType: type,
+            displayName: '',
+
+        });
+
+        // View the response.
+        console.log(`Uploaded file ${uploadResponse.file.displayName} as: ${uploadResponse.file.uri}`);
+
+
+    }
+    catch (error) {
+        console.log("Erro: ", error)   
+        return 0    
+    }
+}
+
+export const save = async (measure: any): Promise<any> => {    
     try {          
         const measureDb = await measureDal.create(measure)
         return measureDb        
     } 
-    catch (e) {
+    catch (e: any) {
         console.log("Erro: ", e.message) 
         return { erro: true, message: e.message }
     }
@@ -80,7 +104,7 @@ export const update = async (payload: Measure, value: number): Promise<any> => {
     try {          
         return await measureDal.update(payload, value)       
     } 
-    catch (e) {
+    catch (e: any) {
         console.log("Erro: ", e.message) 
         return null
     }

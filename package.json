@@ -1,12 +1,35 @@
 {
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Teste Técnico - Desenvovlimento Web",
+  "main": "index.ts",
+  "author": "Misael ",
+  "license": "MIT",
+  "private": null,
+  "scripts": {
+    "start": "node index.js",
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/index.ts",
+    "build": "tsc",
+    "create-db": "ts-node src/db/createDatabase.ts",
+    "drop-db": "ts-node src/db/dropDatabase.ts",
+    "migrate": "ts-node ./node_modules/.bin/sequelize-cli db:migrate"
+  },
   "dependencies": {
-    "@types/express": "^4.17.21",
+    "@google/generative-ai": "^0.17.1",
     "@types/validator": "^13.12.1",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "joi": "^17.13.3",
+    "mariadb": "^3.3.1",
     "mysql2": "^3.11.0",
+    "reflect-metadata": "^0.2.2",
     "sequelize": "^6.37.3",
-    "sequelize-typescript": "^2.1.6",
-    "uuid": "^10.0.0"
+    "sequelize-typescript": "^2.1.6"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.4"
   }
 }
