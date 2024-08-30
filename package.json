@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": null,
   "scripts": {
-    "start": "node index.js",
+    "start": "node ./dist/index.js",
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/index.ts",
     "build": "tsc",
     "create-db": "ts-node src/db/createDatabase.ts",
