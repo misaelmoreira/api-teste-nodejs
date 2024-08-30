@@ -5,6 +5,7 @@ import * as serviceCustomer from '../../services/customer'
 import measureSchema from '../../validations/validateMeasure';
 import validateBase64 from '../../helper/validateBase64';
 import compareDates from '../../helper/compareDates';
+import isValidDateTime from '../../helper/validateDates';
 import Measure from '../../../db/models/measure';
 
 export const validateData = async (req: Request): Promise<Validate> => {
@@ -116,31 +117,29 @@ export const checkMeasureExist = async (payload: any): Promise<Measure | null> =
   return await serviceMeasure.findMeasureById(payload.measure_uuid);
 }
 
-export const consultGemini = async (imageBase64: any): Promise<number> => {
+export const consultGemini = async (imageBase64: any): Promise<any> => {
   let matches = imageBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
   let type = matches[1]
   let imgData = matches[2]
 
-  // to do -> faz upload
-  // const img = await serviceMeasure.uploadImage(imgData, type)
+  // faz upload da imagem
+  const img = await serviceMeasure.uploadImage(imgData, type)
 
   // Implementar a lógica para consultar o Gemini aqui
   const retorno = await serviceMeasure.sendImageToGemini(imgData, type)
-  // Retorna uma medida simulada por enquanto
-
   let value = retorno.match(/\d+/)
 
   if (value) {
     let measuredValue = parseInt(value[0])
 
-    return measuredValue
+    return { measure_value: measuredValue, image_url: img}
   }
   else {
-    return 0
+    return { measure_value: 0, image_url: img}
   }
 }
 
-export const save = async (data: any, value: any): Promise<any> => { 
+export const save = async (data: any, obj: any): Promise<any> => { 
   // verifica se ja existe o customer
   const customerdb = await serviceCustomer.findCustomerById(data.customer_code)
   if(customerdb == null) {
@@ -155,13 +154,13 @@ export const save = async (data: any, value: any): Promise<any> => {
     measure_datetime: data.measure_datetime,
     customer_id: data.customer_code,
     measure_type: data.measure_type,
-    measure_value: value,
+    measure_value: obj.measure_value,
     has_confirmed: false,
+    image_url: obj.image_url
   }
 
   // envia ao servico para salvar
-  const retorno = await serviceMeasure.save(measure)
-  return retorno;
+  return await serviceMeasure.save(measure)
 }
 
 export const updateValue = async (payload: Measure, confirmed_value: number): Promise<any> => {

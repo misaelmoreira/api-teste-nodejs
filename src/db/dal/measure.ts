@@ -18,7 +18,7 @@ export const getAllMeasuresByIdCustomer = async (id: string): Promise<Measure[]>
             attributes: ['measure_uuid', 'measure_datetime', 'measure_type', 'has_confirmed', 'image_url'] 
         })
     } catch (error: any) {
-        console.error('Error fetching measures:', error.message);
+        console.error('Error find measures:', error.message);
         throw new Error('Error find measures:');
     }
 }
@@ -33,7 +33,7 @@ export const getAllMeasuresByIdCustomerByType = async (payload: any): Promise<Me
             attributes: ['measure_uuid', 'measure_datetime', 'measure_type', 'has_confirmed', 'image_url'] 
         })
     } catch (error: any) {
-        console.error('Error fetching measures:', error.message);
+        console.error('Error find measures:', error.message);
         throw new Error('Error find measures:');
     }
 }
@@ -42,8 +42,8 @@ export const getById = async (id: string): Promise<Measure | null> => {
     try {
         return await Measure.findByPk(id);
     } catch (error: any) {
-        console.error('Error fetching measures:', error.message);
-        throw new Error('Error on save measures'); 
+        console.error('Error find measure:', error.message);
+        throw new Error('Error find measure'); 
     }
 }
 
@@ -52,8 +52,8 @@ export const create = async (payload: Measure): Promise<any> => {
         const measureDb = await Measure.create(payload)
         return measureDb.dataValues
     } catch (error: any) {
-        console.error('Error on save measures:', error.message);
-        throw new Error('Error on save measures');   
+        console.error('Error on save measure:', error.message);
+        throw new Error('Error on save measure');   
     }
 }
 
@@ -66,7 +66,7 @@ export const update = async (payload: Measure, value: number): Promise<any> => {
             { where: { measure_uuid: payload.measure_uuid } }         
         )
     } catch (error: any) {
-        console.error('Error on save measures:', error.message);
-        throw new Error('Error on save measures'); ;   
+        console.error('Error on update measure:', error.message);
+        throw new Error('Error on update measure'); ;   
     }
 }

@@ -9,8 +9,8 @@ export const create = async (payload: Customer): Promise<any> => {
         return customerDb.dataValues
 
     } catch (error: any) {
-        console.error('Error on save customers:', error.message);
-        throw new Error('Error on save customers');   
+        console.error('Error on save customer:', error.message);
+        throw new Error('Error on save customer');   
     }
 }
 
@@ -22,7 +22,7 @@ export const getById = async (id: string): Promise<any> => {
         }
         return customerDb.dataValues
     } catch (error: any) {
-        console.error('Error find measure:', error.message);
-        throw new Error('Error on save customers');  
+        console.error('Error find customer:', error.message);
+        throw new Error('Error find customer:');  
     }
 }
