@@ -20,6 +20,15 @@ export const validateData = async (req: Request): Promise<Validate> => {
     })
   }
 
+  if(!isValidDateTime(req.body.measure_datetime))
+  {
+    return new Validate({
+      message: 'Erro de validação',
+      details: ['erro no formato de data'],
+      error: true
+    })
+  }
+
   // Validar o tipo de dados dos parâmetros enviados (inclusive o base64)
   if (validateBase64(req.body.image)) {
     return new Validate({
