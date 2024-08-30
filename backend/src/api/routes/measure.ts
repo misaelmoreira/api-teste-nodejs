@@ -4,7 +4,7 @@ import Validate from '../../db/models/validate'
 
 const measureRouter = Router();
 
-measureRouter.post('/', async (req: Request, res: Response) => {
+measureRouter.post('/upload', async (req: Request, res: Response) => {
 
     //Validar o tipo de dados dos parâmetros enviados (inclusive o base64) 
     const data: Validate = await measureController.validateData(req)

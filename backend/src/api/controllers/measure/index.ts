@@ -4,6 +4,7 @@ import * as serviceMeasure from '../../services/measure'
 import measureSchema from '../../validations/validateMeasure';
 import validateBase64 from '../../helper/validateBase64';
 import compareDates from '../../helper/compareDates';
+import Measure from '../../../db/models/measure';
 
 export const validateData = async (req: Request): Promise<Validate> => {
   // valida dados 
