@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Validate from '../../../db/models/validate';
 import * as serviceMeasure from '../../services/measure'
+import * as serviceCustomer from '../../services/customer'
 import measureSchema from '../../validations/validateMeasure';
 import validateBase64 from '../../helper/validateBase64';
 import compareDates from '../../helper/compareDates';
@@ -130,7 +131,16 @@ export const consultGemini = async (imageBase64: any): Promise<number> => {
   }
 }
 
-export const save = async (data: any, value: any): Promise<any> => {
+export const save = async (data: any, value: any): Promise<any> => { 
+  // verifica se ja existe o customer
+  const customerdb = await serviceCustomer.findCustomerById(data.customer_code)
+  if(customerdb == null) {
+    const customer = {
+      id: data.customer_code
+    }
+
+    await serviceCustomer.save(customer)
+  }
 
   const measure = {
     measure_datetime: data.measure_datetime,

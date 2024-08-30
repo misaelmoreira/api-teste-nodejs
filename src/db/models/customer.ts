@@ -3,7 +3,6 @@ import sequelize from '../config'
 
 interface CustomerAttributes {
   id?: string;
-  name: string;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -15,7 +14,6 @@ export interface CustomerOuput extends Required<CustomerAttributes> {}
 
 class Customer extends Model<CustomerAttributes> implements CustomerAttributes {
   public id?: string
-  public name!: string
 
   // timestamps!
   public readonly createdAt!: Date;
@@ -34,10 +32,6 @@ Customer.init({
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false
-  }, 
 }, {
   timestamps: true,
   sequelize: sequelize,

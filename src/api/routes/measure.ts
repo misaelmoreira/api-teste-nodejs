@@ -25,7 +25,7 @@ measureRouter.post('/upload', async (req: Request, res: Response) => {
     }
 
     // salvar a medição
-    let measure = await measureController.save(req.body, 22)
+    let measure = await measureController.save(req.body, value)
     if (measure.erro) {
         return res.status(400).json({ error_code: "INVALID_DATA", error_description: measure.message })
     }
