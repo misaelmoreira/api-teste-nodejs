@@ -62,6 +62,42 @@ export const validateDataConfirm = async (input: any): Promise<Validate> => {
   })  
 }
 
+export const validateParams = async (payload: any): Promise<Validate> => {
+  // Verifica se 'measure_uuid' é uma string
+  if (payload.type == 'WATER' || payload.type == 'GAS') {
+    return new Validate({
+      message: 'Ok',
+      details: ['Ok'],
+      error: false
+    })
+  }
+
+  // Validação bem-sucedida
+  return new Validate({
+    message: 'Tipo de medição não permitida',
+    details: ['INVALID_TYPE'],
+    error: true
+  })
+}
+
+export const validateParams = async (payload: any): Promise<Validate> => {
+  // Verifica se 'measure_uuid' é uma string
+  if (payload.type == 'WATER' || payload.type == 'GAS') {
+    return new Validate({
+      message: 'Ok',
+      details: ['Ok'],
+      error: false
+    })
+  }
+
+  // Validação bem-sucedida
+  return new Validate({
+    message: 'Tipo de medição não permitida',
+    details: ['INVALID_TYPE'],
+    error: true
+  })
+}
+
 export const checkReading = async (payload: any): Promise<boolean> => {
   //verifica a medição do mes 
 
@@ -128,4 +164,14 @@ export const save = async (data: any, value: any): Promise<any> => {
 export const updateValue = async (payload: Measure, confirmed_value: number): Promise<any> => {
   // envia ao valor para atualizar 
   return await serviceMeasure.update(payload, confirmed_value)
+}
+
+export const findMeasuresByClient = async (customer_code: string): Promise<any> => {
+  // busca as medições pelo cliente id 
+  return await serviceMeasure.checkReading(customer_code);
+}
+
+export const findMeasuresByClientAndByType = async (payload: any): Promise<any> => {
+  // busca as medições pelo cliente id e tipo
+  return await serviceMeasure.checkReadingByType(payload);
 }

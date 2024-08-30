@@ -70,4 +70,41 @@ measureRouter.patch('/confirm', async (req: Request, res: Response) => {
 }
 )
 
+measureRouter.get('/:id/list', async (req: Request, res: Response) => {
+    let result: Measures[]
+    const payload = {
+        id: req.params.id,
+        type: req.query.measure_type
+    }
+
+    // Ele opcionalmente pode receber um query parameter measure_type, que deve ser “WATER” ou “GAS”
+    if (payload.type !== undefined) {
+        //Validar o tipo de dados dos parâmetros enviados 
+        const data: Validate = await measureController.validateParams(payload)
+        if (data.error) {
+            return res.status(400).json({ error_code: "INVALID_TYPE", error_description: data.message })
+        }
+
+        //Receber o código do cliente e filtrar as medidas realizadas por ele
+        result = await measureController.findMeasuresByClientAndByType(payload)
+        if (result == null || result.length == 0) {
+            return res.status(404).json({ error_code: "MEASURE_NOT_FOUND", error_description: 'Nenhuma leitura encontrada' })
+        }
+    }
+    else {
+        //Receber o código do cliente e filtrar as medidas realizadas por ele 
+        result = await measureController.findMeasuresByClient(payload.id)
+        if (result == null || result.length == 0) {
+            return res.status(404).json({ error_code: "MEASURE_NOT_FOUND", error_description: 'Nenhuma leitura encontrada' })
+        }
+    }
+
+    // Operação realizada com sucesso devolver os parametros
+    return res.status(200).send({
+        customer_code: payload.id,
+        measures: result
+    })
+}
+)
+
 export default measureRouter;

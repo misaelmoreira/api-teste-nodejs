@@ -13,6 +13,17 @@ export const checkReading = async (id: any): Promise<any> => {
     }      
 }
 
+export const checkReadingByType = async (payload: any): Promise<any> => {
+    // Verificar se já existe uma leitura no mês naquele tipo de leitura pelo customer code.
+    try {
+        return await measureDal.getAllByIdCustomerByType(payload) 
+    } 
+    catch (error) {
+        console.log("Erro: ", e.message) 
+        return { erro: true, message: e.message }        
+    }      
+}
+
 export const findMeasureById = async (id: any): Promise<any> => {
     // Verificar se já existe uma leitura no mês naquele tipo de leitura pelo customer code.
     try {
