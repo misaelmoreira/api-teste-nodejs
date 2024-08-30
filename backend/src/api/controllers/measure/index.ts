@@ -84,6 +84,11 @@ export const checkReading = async (payload: any): Promise<boolean> => {
   return false
 }
 
+export const checkMeasureExist = async (payload: any): Promise<Measure | null> => {
+  //verifica se a medição existe
+  return await serviceMeasure.findMeasureById(payload.measure_uuid);
+}
+
 export const consultGemini = async (imageBase64: any): Promise<number> => {
   let matches = imageBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
   let type = matches[1]
