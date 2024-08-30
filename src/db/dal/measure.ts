@@ -9,30 +9,32 @@ export const getAll = async (): Promise<Measure[]> => {
     }
 }
 
-export const getAllByIdCustomer = async (id: string): Promise<Measure[]> => {
+export const getAllMeasuresByIdCustomer = async (id: string): Promise<Measure[]> => {
     try {
         return await Measure.findAll({
             where: {
                 customer_id: id
-            }
+            },
+            attributes: ['measure_uuid', 'measure_datetime', 'measure_type', 'has_confirmed', 'image_url'] 
         })
     } catch (error: any) {
         console.error('Error fetching measures:', error.message);
-        throw new Error('Error fetching measures:');
+        throw new Error('Error find measures:');
     }
 }
 
-export const getAllByIdCustomerByType = async (payload: any): Promise<Measure[] | null> => {
+export const getAllMeasuresByIdCustomerByType = async (payload: any): Promise<Measure[]> => {
     try {
         return await Measure.findAll({
             where: {
                 customer_id: payload.id,
                 measure_type: payload.type
-            }
+            },
+            attributes: ['measure_uuid', 'measure_datetime', 'measure_type', 'has_confirmed', 'image_url'] 
         })
     } catch (error: any) {
         console.error('Error fetching measures:', error.message);
-        return null;
+        throw new Error('Error find measures:');
     }
 }
 

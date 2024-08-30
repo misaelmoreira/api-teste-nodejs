@@ -6,7 +6,7 @@ import Measure from '../../db/models/measure';
 export const checkReading = async (id: any): Promise<any> => {
     // Verificar se já existe uma leitura no mês naquele tipo de leitura pelo customer code.
     try {
-        return await measureDal.getAllByIdCustomer(id) 
+        return await measureDal.getAllMeasuresByIdCustomer(id) 
     } 
     catch (e: any) {
         console.log("Erro: ", e.message) 
@@ -17,7 +17,7 @@ export const checkReading = async (id: any): Promise<any> => {
 export const checkReadingByType = async (payload: any): Promise<any> => {
     // Verificar se já existe uma leitura no mês naquele tipo de leitura pelo customer code.
     try {
-        return await measureDal.getAllByIdCustomerByType(payload) 
+        return await measureDal.getAllMeasuresByIdCustomerByType(payload) 
     } 
     catch (e: any) {
         console.log("Erro: ", e.message) 
