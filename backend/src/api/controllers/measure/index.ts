@@ -35,6 +35,33 @@ export const validateData = async (req: Request): Promise<Validate> => {
   })
 }
 
+export const validateDataConfirm = async (input: any): Promise<Validate> => {
+  // Verifica se 'measure_uuid' é uma string
+  if (typeof input.measure_uuid !== 'string') {
+    return new Validate({
+      message: 'Erro de validação',
+      details: ['measure_uuid: precisa ser uma string.'],
+      error: true
+    })
+  }
+
+  // Verifica se 'confirmed_value' é um número inteiro
+  if (typeof input.confirmed_value !== 'number' || !Number.isInteger(input.confirmed_value)) {
+    return new Validate({
+      message: 'Erro de validação',
+      details: ['confirmed_value: precisa ser um inteiro.'],
+      error: true
+    })
+  }
+
+  // Validação bem-sucedida
+  return new Validate({
+    message: 'Ok',
+    details: ['Ok'],
+    error: false
+  })  
+}
+
 export const checkReading = async (payload: any): Promise<boolean> => {
   //verifica a medição do mes 
 
