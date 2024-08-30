@@ -8,6 +8,7 @@ const validateBase64 = (str: string): boolean => {
     try {
         // Tentativa de decodificar a string Base64
         const decoded = Buffer.from(str, 'base64').toString('utf8');
+        
         // Verifica se a decodificação resulta em uma string válida
         return decoded !== null;
     } catch (e) {

@@ -68,20 +68,17 @@ export const sendImageToGemini = async (imageBase64: string, type: string): Prom
 
 export const uploadImage = async (imageBase64: string, type: string): Promise<any> => {
     try {
-        // Initialize GoogleAIFileManager with your API_KEY.
+        // todo: Initialize GoogleAIFileManager with your API_KEY.
         const fileManager = new GoogleAIFileManager(process.env.GEMINI_API_KEY || '');
 
         // Upload the file and specify a display name.
         const uploadResponse = await fileManager.uploadFile(imageBase64, {
             mimeType: type,
             displayName: '',
-
         });
 
         // View the response.
-        console.log(`Uploaded file ${uploadResponse.file.displayName} as: ${uploadResponse.file.uri}`);
-
-
+        console.log(`Uploaded file ${uploadResponse.file.displayName} as: ${uploadResponse.file.uri}`)
     }
     catch (error) {
         console.log("Erro: ", error)   

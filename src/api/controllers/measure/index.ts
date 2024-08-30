@@ -81,8 +81,7 @@ export const validateParams = async (payload: any): Promise<Validate> => {
 }
 
 export const checkReading = async (payload: any): Promise<boolean> => {
-  //verifica a medição do mes 
-
+  // verifica a medição do mes 
   // busca as medições pelo cliente id 
   const measures = await serviceMeasure.checkReading(payload.customer_code);
 
@@ -112,8 +111,8 @@ export const consultGemini = async (imageBase64: any): Promise<number> => {
   let type = matches[1]
   let imgData = matches[2]
 
-  // faz upload
-  const img = await serviceMeasure.uploadImage(imgData, type)
+  // to do -> faz upload
+  // const img = await serviceMeasure.uploadImage(imgData, type)
 
   // Implementar a lógica para consultar o Gemini aqui
   const retorno = await serviceMeasure.sendImageToGemini(imgData, type)

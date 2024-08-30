@@ -30,7 +30,6 @@ const dbInit = async () => {
         console.log('Customers created successfully.');
     } catch (error) {
         console.error('Error initializing the database:', error);
-
     }
 };
 

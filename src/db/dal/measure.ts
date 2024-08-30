@@ -1,4 +1,4 @@
-import Measure, { MeasureInput } from '../models/measure'
+import Measure from '../models/measure'
 
 export const getAll = async (): Promise<Measure[]> => {
     try {
@@ -60,7 +60,7 @@ export const update = async (payload: Measure, value: number): Promise<any> => {
         return await Measure.update(
             { measure_value: value,
               has_confirmed: true
-             },  // Valores a serem atualizados
+             },  
             { where: { measure_uuid: payload.measure_uuid } }         
         )
     } catch (error: any) {
