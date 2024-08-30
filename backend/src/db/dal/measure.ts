@@ -35,3 +35,17 @@ export const create = async (payload: Measure): Promise<any> => {
         throw new Error('Error on save measures');   
     }
 }
+
+export const update = async (payload: Measure, value: number): Promise<any> => {
+    try {
+        return await Measure.update(
+            { measure_value: value,
+              has_confirmed: true
+             },  // Valores a serem atualizados
+            { where: { measure_uuid: payload.measure_uuid } }         
+        )
+    } catch (error) {
+        console.error('Error on save measures:', error.message);
+        return null;   
+    }
+}

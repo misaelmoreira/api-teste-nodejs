@@ -64,3 +64,13 @@ export const save = async (measure: Measure): Promise<any> => {
         return { erro: true, message: e.message }
     }
 }
+
+export const update = async (payload: Measure, value: number): Promise<any> => {    
+    try {          
+        return await measureDal.update(payload, value)       
+    } 
+    catch (e) {
+        console.log("Erro: ", e.message) 
+        return null
+    }
+}

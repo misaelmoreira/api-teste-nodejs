@@ -124,3 +124,8 @@ export const save = async (data: any, value: any): Promise<any> => {
   const retorno = await serviceMeasure.save(measure)
   return retorno;
 }
+
+export const updateValue = async (payload: Measure, confirmed_value: number): Promise<any> => {
+  // envia ao valor para atualizar 
+  return await serviceMeasure.update(payload, confirmed_value)
+}

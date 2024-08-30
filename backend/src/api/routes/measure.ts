@@ -47,27 +47,25 @@ measureRouter.patch('/confirm', async (req: Request, res: Response) => {
     }
 
     //Verificar se o código de leitura informado existe
-    const result = await measureController.checkMeasureExist(req.body)
-    if (result == null) {
+    const measureDb = await measureController.checkMeasureExist(req.body)
+    if (measureDb == null) {
         return res.status(404).json({ error_code: "MEASURE_NOT_FOUND", error_description: 'Leitura do mês não encontrada' })
     }
 
     // Verificar se o código de leitura já foi confirmado
-    if (result.has_confirmed) {    
+    if (measureDb.has_confirmed) {    
         return res.status(409).json({ error_code: "DOUBLE_REPORT", error_description: 'Leitura do mês já realizada' })
     }
-
+    
     // Salvar no banco de dados o novo valor informado
-    let measure = await measureController.update(req.body.confirmed_value) 
-    if (measure.erro) {
-        return res.status(400).json({ error_code: "INVALID_DATA", error_description: measure.message })
+    let result = await measureController.updateValue(measureDb, req.body.confirmed_value) 
+    if (result == null) {
+        return res.status(400).json({ error_code: "INVALID_DATA", error_description: 'erro ao atualizar' })
     }
 
     // Operação realizada com sucesso devolver os parametros
     return res.status(200).send({
-        image_url: measure.image_url,
-        measure_value: measure.measure_value,
-        measure_uuid: measure.measure_uuid  
+        success: true,
     })
 }
 )
