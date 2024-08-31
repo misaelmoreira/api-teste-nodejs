@@ -57,14 +57,11 @@ measureRouter.patch('/confirm', async (req: Request, res: Response) => {
         return res.status(409).json({ error_code: "DOUBLE_REPORT", error_description: 'Leitura do mês já realizada' })
     }
 
-    // verifica o valor de medição do banco com o valor informado
-    if(measureDb.measure_value !== req.body.confirmed_value){
-        // se for diferente atualiza o dado 
-        let result = await measureController.updateValue(measureDb, req.body.confirmed_value)
-        if (result == null) {
-            return res.status(400).json({ error_code: "INVALID_DATA", error_description: 'erro ao atualizar' })
-        }
-    }    
+    // se for diferente atualiza o dado 
+    let result = await measureController.updateValue(measureDb, req.body.confirmed_value)
+    if (result == null) {
+        return res.status(400).json({ error_code: "INVALID_DATA", error_description: 'erro ao atualizar' })
+    }
 
     // Operação realizada com sucesso devolver os parametros
     return res.status(200).send({

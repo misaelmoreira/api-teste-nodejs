@@ -3,10 +3,10 @@ import Validate from '../../../db/models/validate';
 import * as serviceMeasure from '../../services/measure'
 import * as serviceCustomer from '../../services/customer'
 import measureSchema from '../../validations/validateMeasure';
-import validateBase64 from '../../helper/validateBase64';
 import compareDates from '../../helper/compareDates';
 import isValidDateTime from '../../helper/validateDates';
 import Measure from '../../../db/models/measure';
+import isBase64 from '../../helper/isBase64';
 
 export const validateData = async (req: Request): Promise<Validate> => {
   // valida dados 
@@ -31,7 +31,7 @@ export const validateData = async (req: Request): Promise<Validate> => {
   }
 
   // Validar o tipo de dados dos parâmetros enviados (inclusive o base64)
-  if (validateBase64(req.body.image)) {
+  if (!isBase64(req.body.image)) {
     return new Validate({
       message: 'Erro na imagem',
       details: ['Erro na imagem'],
