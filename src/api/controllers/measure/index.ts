@@ -127,16 +127,17 @@ export const consultGemini = async (imageBase64: any): Promise<any> => {
 
   // Implementar a lógica para consultar o Gemini aqui
   const retorno = await serviceMeasure.sendImageToGemini(imgData, type)
-  let value = retorno.match(/\d+/)
+  if(retorno.error == false){
+    let value = retorno.match(/\d+/)
 
-  if (value) {
-    let measuredValue = parseInt(value[0])
+    if (value) {
+      let measuredValue = parseInt(value[0])
 
-    return { measure_value: measuredValue, image_url: img}
+      return { measure_value: measuredValue, image_url: img}
+    }
   }
-  else {
-    return { measure_value: 0, image_url: img}
-  }
+
+  return { error: retorno.error, message: retorno.message}  
 }
 
 export const save = async (data: any, obj: any): Promise<any> => { 

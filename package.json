@@ -11,8 +11,7 @@
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/index.ts",
     "build": "tsc",
     "create-db": "ts-node src/db/createDatabase.ts",
-    "drop-db": "ts-node src/db/dropDatabase.ts",
-    "migrate": "ts-node ./node_modules/.bin/sequelize-cli db:migrate"
+    "drop-db": "ts-node src/db/dropDatabase.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.17.1",

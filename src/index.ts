@@ -8,7 +8,7 @@ import routes from './api/routes';
 import dbInit from './db/init';
 
 const app: Application = express();
-const port = 3000;
+const port = 5001;
 
 // Middleware
 app.use(express.json())

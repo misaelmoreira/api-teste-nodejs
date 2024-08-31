@@ -20,8 +20,8 @@ measureRouter.post('/upload', async (req: Request, res: Response) => {
 
     //Integração da API de LLM para extrair o valor da imagem
     const obj = await measureController.consultGemini(req.body.image)
-    if (obj.measure_value == 0) {
-        return res.status(409).json({ error_code: "DOUBLE_REPORT", error_description: 'Leitura do mês já realizada' })
+    if (obj.error) {
+        return res.status(400).json({ error_code: "INVALID_DATA", error_description: 'Erro na consulta da API do Google Gemini,' + obj.message })
     }
 
     // Salvar a medição

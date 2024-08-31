@@ -14,7 +14,7 @@ services:
       - DB_PORT=3306
       - DB_DRIVER=mysql
     ports:
-      - 5001:3000
+      - 5001:5001
     depends_on:
       mysql:
         condition: service_healthy
