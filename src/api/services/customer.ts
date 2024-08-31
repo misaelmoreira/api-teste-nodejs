@@ -5,7 +5,6 @@ export const save = async (customer: any): Promise<any> => {
         return await customerDal.create(customer)
     }
     catch (e: any) {
-        console.log("Erro: ", e.message)
         return null
     }
 }
@@ -16,7 +15,6 @@ export const findCustomerById = async (id: any): Promise<any> => {
         return await customerDal.getById(id)
     }
     catch (e: any) {
-        console.log("Erro: ", e.message)
         return null
     }
 }

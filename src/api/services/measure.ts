@@ -9,7 +9,6 @@ export const checkReading = async (id: any): Promise<any> => {
         return await measureDal.getAllMeasuresByIdCustomer(id)
     }
     catch (e: any) {
-        console.log("Erro: ", e.message)
         return { erro: true, message: e.message }
     }
 }
@@ -20,7 +19,6 @@ export const checkReadingByType = async (payload: any): Promise<any> => {
         return await measureDal.getAllMeasuresByIdCustomerByType(payload)
     }
     catch (e: any) {
-        console.log("Erro: ", e.message)
         return { erro: true, message: e.message }
     }
 }
@@ -31,7 +29,6 @@ export const findMeasureById = async (id: any): Promise<any> => {
         return await measureDal.getById(id)
     }
     catch (e: any) {
-        console.log("Erro: ", e.message)
         return null
     }
 }
@@ -43,7 +40,7 @@ export const sendImageToGemini = async (imageBase64: string, type: string): Prom
 
         const model = genAI.getGenerativeModel({
             // Choose a Gemini model.
-            model: "gemini-1.5-flash",
+            model: "gemini-1.5-pro",
         });
 
 
@@ -60,9 +57,8 @@ export const sendImageToGemini = async (imageBase64: string, type: string): Prom
 
         return result.response.text()
     }
-    catch (error) {
-        console.log("Erro: ", error)
-        return 0
+    catch (error: any) {
+        return {error: true, message: error.message}
     }
 }
 
@@ -116,7 +112,6 @@ export const uploadImage = async (imageBase64: string, type: string): Promise<an
         return uploadResponse.data.file.uri;
     }
     catch (error: any) {
-        console.log("Erro: ", error.message)
         throw error;
     }
 }
@@ -127,7 +122,6 @@ export const save = async (measure: any): Promise<any> => {
         return measureDb
     }
     catch (e: any) {
-        console.log("Erro: ", e.message)
         return { erro: true, message: e.message }
     }
 }
@@ -137,7 +131,6 @@ export const update = async (payload: Measure, value: number): Promise<any> => {
         return await measureDal.update(payload, value)
     }
     catch (e: any) {
-        console.log("Erro: ", e.message)
         return null
     }
 }
